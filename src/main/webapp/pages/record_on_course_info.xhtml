@@ -1,0 +1,25 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:P="http://java.sun.com/jsf/html">
+
+    <p:fieldset legend="Запись добавлена:" style="padding-top: 20%; padding-bottom: 20%">
+        <h:form>
+            <div style="font-size: 24px !important; font-family: Segoe UI, Verdana, Arial, sans-serif;text-align: center">
+            Cтудент,
+            <p:outputLabel style="font-weight: bold; font-size: 26px; font-family: Courier New, Courier, monospace; color: brown"
+                           value=" #{studentBean.selectedStudent.surname} #{studentBean.selectedStudent.name} #{studentBean.selectedStudent.middle}" />
+                , успешно записан на курс
+                "<p:outputLabel style="font-weight: bold; font-size: 26px; font-family: Courier New, Courier, monospace;color: brown" value="#{studentBean.selectedCourse.title}" />"
+                в группу
+                <p:outputLabel style="font-weight: bold; font-size: 26px; font-family: Courier New, Courier, monospace;color: brown" value="#{studentBean.selectedStudgroup.name}."/>
+                <br/>
+                Сумма первой оплаты составляет:
+                <p:outputLabel  style="font-weight: bold; font-size: 26px; font-family: Courier New, Courier, monospace;color: brown" value="#{studentBean.paydSum} грн." />
+                <br/>
+                <p:commandButton value="готово" style="margin-top: 20px" actionListener="#{navigationBean.setNaviPage('list_students')}" update=":Include" />
+            </div>
+        </h:form>
+    </p:fieldset>
+</ui:composition>

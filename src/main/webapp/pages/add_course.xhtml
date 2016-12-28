@@ -1,0 +1,108 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <h:outputScript library="js" name="locale_ru.js" />
+    <h:outputScript library="js" name="mask.js" />
+    <p:fieldset legend="Добавить курс" styleClass="input_legend">
+        <p:growl id="messages" showDetail="false" life="2000"/>
+        <h:form id="courseForm">
+            <p:panelGrid id="coursePanel" styleClass="input_grid">
+                <p:row>
+                    <p:column> <p:outputLabel value="Название курса: "/> </p:column>
+                    <p:column> <p:inputText styleClass="input_text"
+                                            style="margin-left: 50px"
+                                            value="#{courseBean.title}"
+                                            required="true"
+                                            requiredMessage="Поле: 'Название курса' не заполнено"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column> <p:outputLabel value="Начало курса: "/> </p:column>
+                    <p:column> <p:calendar  styleClass="course"
+                                            value="#{courseBean.startCourse}"
+                                            style="margin-left: 50px"
+                                            locale="ru"
+                                            pattern="dd MMMM yyyy г."
+                                            required="true"
+                                            showOn="both"
+                                            requiredMessage="Поле: 'Начало курса' не заполнено"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column> <p:outputLabel value="Конец курса: "/> </p:column>
+                    <p:column> <p:calendar  value="#{courseBean.endCourse}"
+                                            style="margin-left: 50px"
+                                            locale="ru"
+                                            pattern="dd MMMM yyyy г."
+                                            required="true"
+                                            showOn="both"
+                                            requiredMessage="Поле: 'Конец курса' не заполнено"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column> <p:outputLabel value="Продолжительность: "/> </p:column>
+                    <p:column> <p:inputMask value="#{courseBean.duration}"
+                                            style="margin-left: 50px"
+                                            widgetVar="timeMask"
+                                            mask="99 часов"
+                                            slotChar="0"/>
+                               <p:selectBooleanCheckbox style="margin-left: 7px;" styleClass="time_checkbox" widgetVar="cbxMask" itemLabel="Больше 90 часов" onchange="setMask()" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column> <p:outputLabel value="Преподователь: "/> </p:column>
+                    <p:column> <p:selectOneMenu id="selectLecturer"
+                                                style="margin-left: 50px"
+                                                value="#{courseBean.selectedLecturer}"
+                                                converter="converter.LecturerConverter"
+                                                filter="true"
+                                                filterMatchMode="contains">
+                    <f:selectItems value="#{courseBean.lecturers}" var="lecturer"
+                                   itemLabel="#{lecturer.abbreviation}"
+                                   itemValue="#{lecturer}" />
+                        <p:column>#{lecturer.abbreviation}</p:column>
+                    </p:selectOneMenu>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column> <p:outputLabel value="Стоимость: "/> </p:column>
+                    <p:column> <p:inputText styleClass="input_text"
+                                            style="margin-left: 50px"
+                                            value="#{courseBean.price}"
+                                            required="true"
+                                            requiredMessage="Поле: 'Стоимость' не заполнено">
+                        <f:converter converterId="javax.faces.BigDecimal" />
+                            </p:inputText>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column> <p:outputLabel value="Описание: "/> </p:column>
+                    <p:column> <p:inputTextarea value="#{courseBean.description}"
+                                                style="margin-left: 50px"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column/>
+                    <p:column>
+                        <p:commandButton       style="margin-left: 70px;"
+                                               value="Очистить"
+                                               process="@this"
+                                               actionListener="#{courseBean.resetInput}"
+                                               update=":Include:courseForm:coursePanel"
+                                               icon="ui-icon-document"/>
+
+
+                        <p:commandButton       style="margin-left: 10px;"
+                                               value="Добавить"
+                                               actionListener="#{courseBean.addCourse}"
+                                               update=":Include"
+                                               icon="ui-icon-circle-check"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </h:form>
+    </p:fieldset>
+
+</ui:composition>

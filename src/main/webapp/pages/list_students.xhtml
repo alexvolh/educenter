@@ -1,0 +1,80 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fl="http://java.sun.com/jsp/jstl/functions">
+
+    <p:fieldset legend="Студенты" style="width: 95%">
+        <p:growl id="messages" autoUpdate="false" showDetail="false" life="2000"/>
+        <h:form id="FormStudent">
+            <br/>
+            <p:toolbar id="operation" style="height: 40px;padding-top: 10px">
+                <f:facet name="left">
+                    <p:commandButton style="margin-left: 10px" disabled="#{fl:length(studentBean.students) == 0}" value="Изменить" process="TableStudent" update=":studForm:studPanel" oncomplete="PF('studDialog').show()" icon="fa fa-edit" />
+                    <p:commandButton style="margin-left: 10px" disabled="#{fl:length(studentBean.students) == 0}" value="Удалить" oncomplete="PF('confirmDeleteStud').show()" icon="fa fa-trash" />
+                    <p:commandButton style="margin-left: 10px" disabled="#{fl:length(studentBean.students) == 0}" value="Запиcать на курс" actionListener="#{studentBean.gotoRecord}" update=":Include" icon="fa fa-graduation-cap"  />
+                </f:facet>
+            </p:toolbar>
+            <br/>
+            <p:dataTable id="TableStudent" widgetVar="TableStudents" var="student" value="#{studentBean.students}"
+                         selectionMode="single" selection="#{studentBean.selectedStudent}" rowKey="#{student.id}"
+                         filteredValue="#{studentBean.filteredStudents}" emptyMessage="Не найдено не одной записи"
+                         scrollable="true" scrollHeight="200">
+                <p:ajax event="rowSelect" listener="#{studentBean.setStudgroupsPersist}" update=":Include:FormStudent:studgroupsList" />
+                <f:facet name="header">
+                    <p:outputLabel value="Список студентов" />
+                    <p:outputPanel style="text-align: right; padding-top: 20px">
+                        <h:outputText value="Поиск по всем полям: " />
+                        <p:inputText style="width: 300px" id="globalFilter" onkeyup="PF('TableStudents').filter()" placeholder="Введите ключевое слово поиска"/>
+                    </p:outputPanel>
+                </f:facet>
+                <p:column id="surname" headerText="Фамилия" filterBy="#{student.surname}" filterMatchMode="contains">
+                    <h:outputText value="#{student.surname}" />
+                </p:column>
+                <p:column id="name" headerText="Имя" filterBy="#{student.name}" filterMatchMode="contains">
+                    <h:outputText value="#{student.name}" />
+                </p:column>
+                <p:column id="middle" headerText="Отчество" filterBy="#{student.middle}" filterMatchMode="contains">
+                    <h:outputText value="#{student.middle}" />
+                </p:column>
+                <p:column id="email" headerText="email" filterBy="#{student.email}" filterMatchMode="contains">
+                    <h:outputText value="#{student.email}" />
+                </p:column>
+                <p:column id="phone" headerText="Телефон" filterBy="#{student.phone}" filterMatchMode="contains">
+                    <h:outputText value="#{student.phone}" />
+                </p:column>
+                <p:column id="adress" headerText="Адрес" filterBy="#{student.adress}" filterMatchMode="contains">
+                    <h:outputText value="#{student.adress}" />
+                </p:column>
+                <p:column id="description" headerText="Описание" filterBy="#{student.description}" filterMatchMode="contains">
+                    <h:outputText value="#{student.description}" />
+                </p:column>
+                <f:facet name="footer">
+                    <div style="height: 35px;"></div>
+                </f:facet>
+            </p:dataTable>
+            <br/>
+            <p:outputLabel value="Записан в группу (на курс):" />
+
+            <p:dataTable id="studgroupsList" style="margin-top: 20px" value="#{studentBean.studgroups}" var="record" emptyMessage="Не выбран студент или связанные курсы отсутствуют">
+                <p:column headerText="группа">
+                    <h:outputText value="#{record.studgroup.name}" />
+                </p:column>
+                <p:column headerText="курс">
+                    <h:outputText value="#{record.studgroup.course.title}" />
+                </p:column>
+                <p:column headerText="№ счета">
+                    <h:outputText value="#{record.invoice.id}" />
+                </p:column>
+                <p:column headerText="стоимость">
+                    <h:outputText value="#{record.invoice.allSum}" />
+                </p:column>
+                <p:column headerText="оплачено">
+                    <h:outputText value="#{record.invoice.factSum}" />
+                </p:column>
+            </p:dataTable>
+            <br/>
+        </h:form>
+    </p:fieldset>
+</ui:composition>

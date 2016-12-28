@@ -1,0 +1,63 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <p:fieldset legend="Добавить группу" styleClass="input_legend">
+        <p:growl id="messages" showDetail="false" life="2000"/>
+        <h:form id="studgroupForm">
+            <p:panelGrid id="studgroupPanel" styleClass="input_grid" style="width: 500px !important;">
+                <p:row>
+                    <p:column> <p:outputLabel value="Название группы: "/> </p:column>
+                    <p:column> <p:inputText styleClass="input_text" style="width: 500px !important;margin-left: 100px !important;"
+                                            value="#{studgroupBean.name}"
+                                            required="true"
+                                            requiredMessage="Поле: 'Название группы' не заполнено"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column> <p:outputLabel value="Описание: "/> </p:column>
+                    <p:column> <p:inputTextarea styleClass="input_text"
+                                                style="width: 500px !important;margin-left: 100px !important;"
+                                                value="#{studgroupBean.description}"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column colspan="2">
+                        <p:outputLabel value="Выберете курс(ы):"/>
+                        <p:pickList id="selectedCourses" styleClass="p1"
+                                    style="margin-top: 10px !important;"
+                                    showSourceControls="true" showTargetControls="true"
+                                    addLabel="Выберете курс(ы)"
+                                    value="#{studgroupBean.courseDualListModel}"
+                                    var="course"
+                                    itemLabel="#{course.title}" itemValue="#{course}">
+                            <f:converter converterId="converter.CourseConverter"/>
+                            <p:ajax event="transfer" listener="#{studgroupBean.onTransfer}"/>
+                            <p:column>
+                                #{course.title}
+                            </p:column>
+                        </p:pickList>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column colspan="2">
+                        <p:commandButton  value="Добавить"
+                                          style="margin-right: 50px; margin-left: 10px; float: right;"
+                                          actionListener="#{studgroupBean.addStudgroup}"
+                                          update=":Include"
+                                          icon="ui-icon-circle-check"/>
+
+                        <p:commandButton  value="Очистить"
+                                          style="float: right;"
+                                          process="@this"
+                                          actionListener="#{studgroupBean.resetInput}"
+                                          update=":Include"
+                                          icon="ui-icon-document"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </h:form>
+    </p:fieldset>
+
+</ui:composition>

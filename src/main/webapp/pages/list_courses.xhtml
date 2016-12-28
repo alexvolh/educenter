@@ -1,0 +1,41 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:fl="http://java.sun.com/jsp/jstl/functions">
+    <p:fieldset legend="Курсы">
+        <h:form id="FormCourse">
+            <br/>
+
+            <p:dataTable id="TableCourse" widgetVar="TableCourses" var="course" value="#{courseBean.courses}"
+                         selectionMode="single" selection="#{courseBean.selectedCourse}" rowKey="#{course.id}"
+                         filteredValue="#{courseBean.filteredCourses}" emptyMessage="Не найдено не одной записи"
+                         scrollable="true" scrollHeight="400">
+
+                <p:column id="title" headerText="Название курса">
+                    <h:outputText value="#{course.title}" />
+                </p:column>
+                <p:column id="start" headerText="Начало">
+                    <h:outputText value="#{course.formattedStartTime}" />
+                </p:column>
+                <p:column id="end" headerText="Конец" >
+                    <h:outputText value="#{course.formattedEndTime}" />
+                </p:column>
+                <p:column id="duration" headerText="Продолжительность" >
+                    <h:outputText value="#{course.duration}" />
+                </p:column>
+                <p:column id="lecturer" headerText="Преподователь" >
+                    <h:outputText value="#{course.lecturerId}" />
+                </p:column>
+                <p:column id="description" headerText="Описание" >
+                    <h:outputText value="#{course.description}" />
+                </p:column>
+                <f:facet name="footer">
+                    <div style="height: 35px;"></div>
+                </f:facet>
+            </p:dataTable>
+            <br/>
+        </h:form>
+    </p:fieldset>
+
+</ui:composition>

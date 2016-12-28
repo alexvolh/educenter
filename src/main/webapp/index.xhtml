@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: Alexander
+  Date: 26.02.2016
+  Time: 8:03
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+    <title>educenter</title>
+</h:head>
+
+<h:body>
+    <h:outputStylesheet library="css" name="style.css" />
+    <p:layout fullPage="true">
+        <p:layoutUnit position="north" size="115" resizable="false" gutter="1" style="padding: 3px !important;">
+           <div style="width: 6%; float: left; margin-left: 2%">
+               <pe:analogClock mode="server" colorTheme="#{analogClock.customTheme}" startTime="#{analogClock.now}" />
+           </div>
+          <div style="height: 100px; float: left">
+            <img class="img_logo" style="margin-left: 8%" src="resources/images/logo_education.png" alt="logo" />
+          </div>
+            <div style="float: right">
+            <h:outputLabel value="Сменить тему:" />
+                <br/>
+            <h:form>
+            <p:themeSwitcher style="margin-top: 5px" value="#{userSettingsBean.theme}" var="t"
+                             converter="#{themeConverter}" onchange="$('#mainForm').submit()" >
+                <f:selectItems value="#{userSettingsBean.themes}"
+                               var="theme"
+                               itemLabel="#{theme.displayName}"
+                               itemValue="#{theme}"/>
+                <p:column>
+                    <h:graphicImage library="images"
+                                    name="themes/#{t.name}.png"/>
+                </p:column>
+                <p:column>
+                    #{t.displayName}
+                </p:column>
+            </p:themeSwitcher>
+            </h:form>
+            </div>
+        </p:layoutUnit>
+
+        <p:layoutUnit position="south" size="50" gutter="1" style="padding: 3px !important;" >
+          <div style="height: 35px; width: auto ; text-align: center">
+            <h:outputText value="educenter © 2016 "/>
+          </div>
+        </p:layoutUnit>
+
+        <p:layoutUnit position="west" size="200" header="Меню" collapsible="true" style="padding: 3px !important;">
+            <ui:include src="template/menu.xhtml" />
+        </p:layoutUnit>
+
+        <p:layoutUnit position="center" style="padding: 3px !important;">
+            <h:form id="Include">
+                <ui:include src="/pages/#{navigationBean.naviPage}.xhtml" />
+            </h:form>
+        </p:layoutUnit>
+    </p:layout>
+    <ui:include src="/pages/change_lec_dialog.xhtml"/>
+    <ui:include src="/pages/change_stud_dialog.xhtml" />
+    <ui:include src="/pages/change_group_dialog.xhtml" />
+    <ui:include src="/pages/studgroup_students_dialog.xhtml" />
+</h:body>
+
+</html>

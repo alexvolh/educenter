@@ -1,0 +1,49 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <p:fieldset legend="Следующая группа добавлена:" styleClass="output_legend">
+        <div style="padding-left: 25% !important;">
+            <p:panelGrid id="panelGrid" styleClass="output_grid">
+                <p:row>
+                    <p:column><p:outputLabel value="Название группы:"/></p:column>
+                    <p:column><p:outputLabel value="#{studgroupBean.name}"
+                    /></p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="Выбранные курсы:"/></p:column>
+                    <p:column>
+                            <p:dataList id="list_courses" styleClass="borderlist" value="#{studgroupBean.selectedCourses}" var="course" type="ordered">
+                                #{course.title}
+                            </p:dataList>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="Заметка:" for="description"/></p:column>
+                    <p:column><p:outputLabel id="description"
+                                             value="#{studgroupBean.description}"
+                    /></p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:commandButton style="margin-left: 20px;"
+                                         value="Назад"
+                                         actionListener="#{navigationBean.setNaviPage('add_studgroup')}"
+                                         update=":Include"
+                                         icon="ui-icon-arrowthick-1-w"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton style="margin-left: 20px;"
+                                         value="Готово"
+                                         actionListener="#{navigationBean.setNaviPage('list_studgroups')}"
+                                         update=":Include"
+                                         icon="ui-icon-arrowthick-1-e"/>
+
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </div>
+    </p:fieldset>
+</ui:composition>

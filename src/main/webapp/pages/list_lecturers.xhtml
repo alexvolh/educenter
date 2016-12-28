@@ -1,0 +1,62 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:fl="http://java.sun.com/jsp/jstl/functions">
+
+    <p:fieldset legend="Преподователи">
+        <h:form id="FormLecture">
+            <br/>
+            <p:toolbar style="height: 40px;padding-top: 10px">
+                <f:facet name="left">
+                    <p:commandButton style="margin-left: 10px" disabled="#{fl:length(lecturerBean.lecturers) == 0}" value="Изменить" process="TableLecturer" update=":lecForm:lecPanel" oncomplete="PF('lecDialog').show()" icon="fa fa-edit" />
+                    <p:commandButton style="margin-left: 10px" disabled="#{fl:length(lecturerBean.lecturers) == 0}" value="Удалить" oncomplete="PF('confirmDeleteLec').show()" icon="fa fa-trash" />
+                </f:facet>
+            </p:toolbar>
+            <br/>
+            <p:dataTable id="TableLecturer" widgetVar="TableLecturers" var="lecturer" value="#{lecturerBean.lecturers}"
+                         selectionMode="single" selection="#{lecturerBean.selectedLecturer}" rowKey="#{lecturer.id}"
+                         filteredValue="#{lecturerBean.filteredLecturers}" emptyMessage="Не найдено не одной записи"
+                         scrollable="true" scrollHeight="200">
+                <p:ajax event="rowSelect" listener="#{lecturerBean.setCurrentCourses}" update=":Include:FormLecture:courses_datalist" />
+
+                <f:facet name="header">
+                    <p:outputLabel value="Список преподователей" />
+                    <p:outputPanel style="text-align: right; padding-top: 20px">
+                        <h:outputText value="Поиск по всем полям: " />
+                        <p:inputText style="width: 300px" id="globalFilter" onkeyup="PF('TableLecturers').filter()" placeholder="Введите ключевое слово поиска"/>
+                    </p:outputPanel>
+                   </f:facet>
+
+                <p:column id="surname" headerText="Фамилия" filterBy="#{lecturer.surname}" filterMatchMode="contains">
+                    <h:outputText value="#{lecturer.surname}" />
+                </p:column>
+                <p:column id="name" headerText="Имя" filterBy="#{lecturer.name}" filterMatchMode="contains">
+                    <h:outputText value="#{lecturer.name}" />
+                </p:column>
+                <p:column id="middle" headerText="Отчество" filterBy="#{lecturer.middle}" filterMatchMode="contains">
+                    <h:outputText value="#{lecturer.middle}" />
+                </p:column>
+                <p:column id="email" headerText="email" filterBy="#{lecturer.email}" filterMatchMode="contains">
+                    <h:outputText value="#{lecturer.email}" />
+                </p:column>
+                <p:column id="phone" headerText="Телефон" filterBy="#{lecturer.phone}" filterMatchMode="contains">
+                    <h:outputText value="#{lecturer.phone}" />
+                </p:column>
+                <p:column id="description" headerText="Описание" filterBy="#{lecturer.description}" filterMatchMode="contains">
+                    <h:outputText value="#{lecturer.description}" />
+                </p:column>
+                <f:facet name="footer">
+                    <div style="height: 35px;"></div>
+                </f:facet>
+            </p:dataTable>
+            <br/>
+            <p:dataList id="courses_datalist" value="#{lecturerBean.currentCourses}" var="course" type="ordered" emptyMessage="Связанные курсы отсутствуют или не выбран преподаватель">
+                <f:facet name="header">
+                    Курсы
+                </f:facet>
+                #{course.title}
+            </p:dataList>
+        </h:form>
+    </p:fieldset>
+</ui:composition>

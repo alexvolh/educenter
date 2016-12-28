@@ -1,0 +1,83 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fl="http://java.sun.com/jsp/jstl/functions" xmlns:pt="http://primefaces.org/mobile">
+
+    <!--<p:growl id="msg" showDetail="true" life="2000"/>-->
+    <p:fieldset legend="Группы" style="height:auto !important;">
+        <br/>
+        <div style="width: auto">
+        <h:form id="studgroup-name-form">
+           <!-- <p:messages id="messagesStudgroup" showDetail="true" autoUpdate="true" closable="true" />-->
+            <p:growl showDetail="true" sticky="true" life="2000" />
+            <p:orderList id="orderlist-studgroup" style="width: 100% !important;" styleClass="studgroup-name"
+                         value="#{studgroupBean.nameGroup}" var="studgroup" itemValue="#{studgroup}"
+                         controlsLocation="left" responsive="true" requiredMessage="Список пуст" >
+                <p:ajax event="select" listener="#{studgroupBean.onSelect}" update="Include:studgroup-course-form:studgroup-course Include:studgroup-course-form:selectedDescription" />
+                <f:facet name="caption">
+                    Список групп
+                </f:facet>
+                <p:column>
+                   <h:outputText value="#{studgroup}" />
+                </p:column>
+                <p:column>
+                    <p:commandButton style="width:35px; height: 35px; float: right; margin-right: 10px;" icon="fa fa-trash"
+                                     actionListener="#{studgroupBean.delSelectedStudgroupName}"
+                                     oncomplete="PF('deleteStudgroupDialog').show()">
+                        <f:param name="studgroupName" value="#{studgroup}"/>
+                    </p:commandButton>
+                    <p:commandButton style="width:35px; height: 35px; float: right; margin-right: 10px;"
+                                     icon="fa fa-plus-square"
+                                     actionListener="#{studgroupBean.addSelectedStudgroupName}"
+                                     update=":addCourseStudgroupForm"
+                                     oncomplete="PF('addCourseDialog').show()">
+                        <f:param name="studgroupName" value="#{studgroup}"/>
+                    </p:commandButton>
+                    <p:commandButton style="width:35px; height: 35px; float: right; margin-right: 10px;" icon="fa fa-edit"
+                                     actionListener="#{studgroupBean.updSelectedStudgroupName}"
+                                     update=":change-studgroup-form:change-studgroup-panel"
+                                     oncomplete="PF('studgroupDialog').show()">
+                        <f:param name="studgroupName" value="#{studgroup}"/>
+                    </p:commandButton>
+                    <p:commandButton style="width:35px; height: 35px; float: right; margin-right: 10px;" icon="fa fa-users"
+                                     actionListener="#{studgroupBean.getStudentsOfGroup}"
+                                     update=":studgroupStudents"
+                                     oncomplete="PF('studgroupStudentsDialog').show()">
+                        <f:param name="studgroupName" value="#{studgroup}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:orderList>
+        </h:form>
+        </div>
+        <br/>
+        <div>
+        <h:form id="studgroup-course-form">
+            <p:panel>
+                <p:outputLabel id="selectedDescription" value="Описание: #{studgroupBean.selectedDescription}" />
+            </p:panel>
+            <br/>
+            <p:dataTable id="studgroup-course" value="#{studgroupBean.currentCourses}" var="course" emptyMessage="Выбирете группу из списка !">
+                <p:column headerText="Курсы">
+                    <h:outputText value="#{course.course.title}" />
+                </p:column>
+                <p:column headerText="Преподаватель">
+                    <h:outputText value="#{course.course.lecturerId}" />
+                </p:column>
+                <p:column headerText="Начало">
+                    <h:outputText value="#{course.course.formattedStartTime}" />
+                </p:column>
+                <p:column headerText="Конец">
+                    <h:outputText value="#{course.course.formattedEndTime}" />
+                </p:column>
+                <p:column width="20">
+                    <p:commandLink ajax="true" action="#{studgroupBean.deleteCurrentCourseFromGroup(course)}" update="@form" process="@this">
+                        <span title="Remove" class="ui-icon ui-icon-trash"/>
+                    </p:commandLink>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        </div>
+    </p:fieldset>
+</ui:composition>

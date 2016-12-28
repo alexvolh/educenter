@@ -1,0 +1,71 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html">
+
+    <p:fieldset legend="Следующий преподователь будет добавлен:" styleClass="output_legend">
+            <div style="padding-left: 25% !important;">
+            <p:panelGrid id="panelGrid" styleClass="output_grid">
+                <p:row>
+                    <p:column><p:outputLabel value="Фамилия:" for="surname_lecturer"/></p:column>
+                    <p:column><p:outputLabel id="surname_lecturer"
+                                           value="#{lecturerBean.lecturer.surname}"
+                                           required="true"
+                    /></p:column >
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="Имя:" for="name_lecturer"/></p:column>
+                    <p:column><p:outputLabel id="name_lecturer"
+                                           value="#{lecturerBean.lecturer.name}"
+                                           required="true"
+                    /></p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="Отчество:" for="middle_lecturer"/></p:column>
+                    <p:column><p:outputLabel id="middle_lecturer"
+                                           value="#{lecturerBean.lecturer.middle}"
+                                           required="true"
+                    /></p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="email:" for="mail"/></p:column>
+                    <p:column><p:outputLabel id="mail"
+                                           value="#{lecturerBean.lecturer.email}"
+                                           required="true"
+                    /></p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="Телефон:" for="phone"/></p:column>
+                    <p:column><p:outputLabel id="phone"
+                                           value="#{lecturerBean.lecturer.phone}"
+                                           required="true"
+                    /></p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="Заметка:" for="description"/></p:column>
+                    <p:column><p:outputLabel id="description"
+                                           value="#{lecturerBean.lecturer.description}"
+                                           required="true"
+                    /></p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                    <p:commandButton        style="margin-left: 20px;"
+                                            value="Назад"
+                                            actionListener="#{navigationBean.setNaviPage('add_lecturer')}"
+                                            update=":Include"
+                                            icon="ui-icon-arrowthick-1-w"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton     style="margin-left: 20px;"
+                                             value="Готово"
+                                             actionListener="#{navigationBean.setNaviPage('list_lecturers')}"
+                                             update=":Include"
+                                             icon="ui-icon-arrowthick-1-e"/>
+
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            </div>
+    </p:fieldset>
+</ui:composition>

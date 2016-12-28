@@ -1,0 +1,57 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+        <p:dialog id="changeLecturer" header="Изменить" widgetVar="lecDialog" modal="true"
+                  showEffect="fade" resizable="false">
+            <h:form id="lecForm">
+                <p:panelGrid id="lecPanel" styleClass="change_dialog">
+                    <p:row>
+                        <p:column><p:outputLabel value="Фамилия" /></p:column>
+                        <p:column><p:inputText value="#{lecturerBean.selectedLecturer.surname}"/> </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:outputLabel value="Имя" /></p:column>
+                        <p:column><p:inputText value="#{lecturerBean.selectedLecturer.name}"/> </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:outputLabel value="Отчество" /></p:column>
+                        <p:column><p:inputText value="#{lecturerBean.selectedLecturer.middle}"/> </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:outputLabel value="email" /></p:column>
+                        <p:column><p:inputText value="#{lecturerBean.selectedLecturer.email}"/> </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:outputLabel value="Телефон" /></p:column>
+                        <p:column><p:inputText value="#{lecturerBean.selectedLecturer.phone}"/> </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:outputLabel value="Описание" /></p:column>
+                        <p:column><p:inputTextarea value="#{lecturerBean.selectedLecturer.description}"/> </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column/>
+                        <p:column>
+                            <p:commandButton value="Ok" actionListener="#{lecturerBean.updateLecturer}" oncomplete="PF('lecDialog').hide()" update="Include"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+    <p:dialog id="confirm" header="Удаление" widgetVar="confirmDeleteLec" modal="true" closable="false" resizable="false">
+        <h:form id="confirmDialog">
+            <div style="margin-top: 10px">
+                <p:outputLabel value="Удалить данного преподователя" />
+            </div>
+            <br/>
+            <div style="width: 100%; text-align: center; margin-top: 20px;">
+                <p:commandButton value="Да" actionListener="#{lecturerBean.deleteLecturer}" icon="ui-icon-check" oncomplete="PF('confirmDeleteLec').hide()" update="Include"/>
+                <p:commandButton value="Нет" style="margin-left: 10px;" icon="ui-icon-close" oncomplete="PF('confirmDeleteLec').hide()" update="Include"/>
+            </div>
+        </h:form>
+    </p:dialog>
+</ui:composition>

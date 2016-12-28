@@ -1,0 +1,66 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html">
+
+    <p:fieldset legend="Следующий курс добавлен:" styleClass="output_legend">
+        <div style="padding-left: 25% !important;">
+            <p:panelGrid id="panelGrid" styleClass="output_grid">
+                <p:row>
+                    <p:column><p:outputLabel value="Название курса:"/></p:column>
+                    <p:column><p:outputLabel value="#{courseBean.title}"
+                                             required="true"
+                    /></p:column >
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="Начало курса:"/></p:column>
+                    <p:column><p:outputLabel value="#{courseBean.course.formattedStartTime}"
+                                             required="true"
+                    /></p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="Окончание курса:"/></p:column>
+                    <p:column><p:outputLabel value="#{courseBean.course.formattedEndTime}"
+                                             required="true"
+                    /></p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="Продолжительность:"/></p:column>
+                    <p:column><p:outputLabel value="#{courseBean.course.duration}"
+                                             required="true"
+                    /></p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="Преподователь:"/></p:column>
+                    <p:column><p:outputLabel value="#{courseBean.course.lecturerId.abbreviation}"
+                                             required="true"
+                    /></p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="Заметка:" for="description"/></p:column>
+                    <p:column><p:outputLabel id="description"
+                                             value="#{courseBean.course.description}"
+                                             required="true"
+                    /></p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:commandButton        style="margin-left: 20px;"
+                                                value="Назад"
+                                                actionListener="#{navigationBean.setNaviPage('add_course')}"
+                                                update=":Include"
+                                                icon="ui-icon-arrowthick-1-w"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton     style="margin-left: 20px;"
+                                             value="Готово"
+                                             actionListener="#{navigationBean.setNaviPage('list_courses')}"
+                                             update=":Include"
+                                             icon="ui-icon-arrowthick-1-e"/>
+
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </div>
+    </p:fieldset>
+</ui:composition>

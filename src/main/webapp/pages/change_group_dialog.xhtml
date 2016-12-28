@@ -1,0 +1,80 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core">
+
+    <p:dialog id="change-studgroup" header="Изменить" widgetVar="studgroupDialog" modal="true"
+              showEffect="fade" resizable="false" >
+        <h:form id="change-studgroup-form">
+            <p:panelGrid id="change-studgroup-panel" styleClass="change_dialog">
+                <p:row>
+                    <p:column><p:outputLabel value="Название группы" /></p:column>
+                    <p:column><p:inputText value="#{studgroupBean.selectedName}"/> </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="Описание" /></p:column>
+                    <p:column><p:inputTextarea value="#{studgroupBean.selectedDescription}"/> </p:column>
+                </p:row>
+                <p:row>
+                    <p:column/>
+                    <p:column>
+                        <p:commandButton value="Ok" action="index?faces-redirect=false"
+                                         actionListener="#{studgroupBean.updateSelectedStudgroup}"
+                                         oncomplete="PF('studgroupDialog').hide()"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+    <p:dialog id="addCourseStudgroup" width="1500" header="Добавить курсы" widgetVar="addCourseDialog" modal="true"
+              showEffect="fade" resizable="false" >
+        <h:form id="addCourseStudgroupForm">
+            <h:outputLabel value="Выбранная группа: #{studgroupBean.selectedName}" />
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+            <p:dataTable id="selectCourses" value="#{courseBean.courses}" widgetVar="selectDatatable" var="course" rowKey="#{course.title}" selection="#{courseBean.selectedCourses}">
+                <p:column width="15" selectionMode="multiple" />
+                <p:column width="500">
+                    #{course.title}
+                </p:column>
+                <p:column width="200">
+                    #{course.lecturerId}
+                </p:column>
+                <p:column >
+                    #{course.formattedStartTime}
+                </p:column>
+                <p:column >
+                    #{course.formattedEndTime}
+                </p:column>
+            </p:dataTable>
+            <br/>
+            <div style="width: auto; text-align: center">
+            <p:commandButton   value="Добавить"
+                               action="index?faces-redirect=false"
+                               actionListener="#{studgroupBean.addCoursesToGroup}" />
+            </div>
+        </h:form>
+    </p:dialog>
+
+    <p:dialog id="deleteStudgroup" header="Удаление текущей группы" widgetVar="deleteStudgroupDialog" modal="true"
+              showEffect="fade" resizable="false" closable="false">
+        <h:form style="text-align: center">
+            <p:outputLabel value="Удалить группу #{studgroupBean.selectedName} и все связанные с ней курсы ?"/>
+            <div style="margin-top: 10px;margin-bottom: 10px">
+                <p:commandButton value="Да" action="index?faces-redirect=false"
+                                 actionListener="#{studgroupBean.deleteSelectedStudgroup}"
+                                 oncomplete="PF('deleteStudgroupDialog').hide()"/>
+                <p:commandButton style="margin-left: 10px" value="Нет" oncomplete="PF('deleteStudgroupDialog').hide()"/>
+            </div>
+        </h:form>
+    </p:dialog>
+
+    <p:dialog id="deleteStudgroupCourse" header="Удаление текущего курса" widgetVar="deleteStudgroupCourseDialog" modal="true"
+              showEffect="fade" resizable="false" closable="false">
+        <h:form>
+            <p:outputLabel value="Текущий курс: " />
+        </h:form>
+    </p:dialog>
+</ui:composition>

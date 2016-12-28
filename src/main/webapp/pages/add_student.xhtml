@@ -1,0 +1,111 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <p:fieldset legend="Добавить студента" styleClass="input_legend">
+        <p:growl id="messages" showDetail="false" life="2000"/>
+        <h:form id="InputForm">
+            <p:panelGrid id="InputPanel" styleClass="input_grid">
+                <p:row>
+                    <p:column> <p:outputLabel for="surname" value="Фамилия: "/> </p:column>
+                    <p:column> <p:inputText styleClass="input_text"
+                                            id="surname"
+                                            title="Фамилия"
+                                            value="#{studentBean.surname}"
+                                            required="true"
+                                            requiredMessage="Поле: 'Фамилия' не заполнено"/>
+                    </p:column>
+                    <p:column id="photoCamColumn" rowspan="16" rendered="false">
+                        <h:form>
+                            <p:photoCam widgetVar="photoCam" listener="#{studentBean.oncapture}" update="photo" />
+                            <br/>
+                            <p:commandButton type="button" value="Снимок" onclick="PF('photoCam').capture()" update="photo"/>
+                            <p:outputPanel id="photo">
+                                <p:graphicImage  name="C:\photo_webcam\5827819.jpeg" rendered="#{not empty studentBean.photoName}" />
+                            </p:outputPanel>
+                        </h:form>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column> <p:outputLabel for="name" value="Имя: "/> </p:column>
+                    <p:column> <p:inputText styleClass="input_text"
+                                            id="name"
+                                            title="Имя"
+                                            value="#{studentBean.name}"
+                                            required="true"
+                                            requiredMessage="Поле: 'Имя' не заполнено"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column> <p:outputLabel for="middle" value="Отчество: "/> </p:column>
+                    <p:column> <p:inputText styleClass="input_text"
+                                            id="middle"
+                                            title="Отчество"
+                                            value="#{studentBean.middle}"
+                                            required="true"
+                                            requiredMessage="Поле: 'Отчество' не заполнено"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column> <p:outputLabel for="email" value="email: "/> </p:column>
+                    <p:column> <p:inputText styleClass="input_text"
+                                            id="email"
+                                            title="email"
+                                            value="#{studentBean.email}"
+                                            required="true"
+                                            requiredMessage="Поле: 'email' не заполнено"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column> <p:outputLabel for="phone" value="Телефон: "/> </p:column>
+                    <p:column> <p:inputText styleClass="input_text"
+                                            id="phone"
+                                            title="Телефон"
+                                            value="#{studentBean.phone}"
+                                            required="true"
+                                            requiredMessage="Поле: 'Телефон' не заполнено"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column> <p:outputLabel for="adress" value="Адрес: "/> </p:column>
+                    <p:column> <p:inputText styleClass="input_text"
+                                            id="adress"
+                                            title="Телефон"
+                                            value="#{studentBean.adress}"
+                                            required="true"
+                                            requiredMessage="Поле: 'Адрес' не заполнено"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column> <p:outputLabel for="description" value="Заметка: "/> </p:column>
+                    <p:column> <p:inputTextarea
+                            styleClass="input_text"
+                            id="description"
+                            title="Заметка"
+                            value="#{studentBean.description}"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column/>
+                    <p:column>
+                        <p:commandButton       style="margin-left: 70px;"
+                                               value="Очистить"
+                                               process="@this"
+                                               actionListener="#{studentBean.resetInput}"
+                                               update=":Include:InputForm:InputPanel"
+                                               icon="ui-icon-document"/>
+
+
+                        <p:commandButton       style="margin-left: 10px;"
+                                               value="Добавить"
+                                               actionListener="#{studentBean.addStudent}"
+                                               update=":Include"
+                                               icon="ui-icon-circle-check"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </h:form>
+    </p:fieldset>
+
+</ui:composition>

@@ -1,0 +1,165 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://java.sun.com/xml/ns/javaee"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                http://java.sun.com/xml/ns/javaee/beans_1_0.xsd"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <p:fieldset legend="Запись на курс" style="width: 97%">
+        <h:form id="courseTable" >
+            <p:growl id="growlRecordToCourse" showDetail="true" sticky="true" showSummary="1000"/>
+            <div style="margin-top: 30px">
+                <p:panelGrid style="width: 100%">
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column style="width: 50%;">
+                                Студент
+                            </p:column>
+                            <p:column style="width: 25%;">
+                                Выбранный курс
+                            </p:column>
+                            <p:column style="width: 25%;">
+                                Выбранная группа
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row style="height: 55px">
+                        <p:column>
+                            <p:outputLabel value="#{studentBean.selectedStudent.surname} #{studentBean.selectedStudent.name} #{studentBean.selectedStudent.middle}"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel id="selectedCourseLabel" value="#{studentBean.selectedCourse.title}" />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel id="selectedStudgroupLabel" value="#{studentBean.printNameStudgroup}" />
+                        </p:column>
+                    </p:row>
+                    <f:facet name="footer">
+                        <p:row>
+                            <p:column/>
+                            <p:column/>
+                            <p:column/>
+                        </p:row>
+                    </f:facet>
+                </p:panelGrid>
+                </div>
+               <div style="margin-top: 20px">
+               <p:panelGrid>
+                   <p:row>
+                       <p:column style="width: 35%">
+                           <p:dataTable id="coursesToRecord" widgetVar="coursesToRecordWidget" value="#{studentBean.courseList}" var="course"
+                                        scrollable="true" scrollHeight="200"
+                                        rowKey="#{course.id}" selectionMode="single" selection="#{studentBean.selectedCourse}">
+                               <p:ajax event="rowSelect" listener="#{studentBean.checkLinkedStudgroup}" update=":Include:courseTable:studgroupsToRecord :Include:courseTable:selectedCourseLabel
+                                                                                                                :Include:courseTable:selectedStudgroupLabel :Include:courseTable:recordToCourseButton
+                                                                                                                :Include:courseTable:infoPay :Include:courseTable:allSum"/>
+                               <f:facet name="header">
+                                   <p:outputLabel value="курсы"/>
+                               </f:facet>
+                               <p:column style="width: 10px;text-align:center;">
+                                   <h:outputText value="●"/>
+                               </p:column>
+                               <p:column id="searchColumn" headerText="поиск" filterBy="#{course.title}" filterMatchMode="contains">
+                                   <h:outputText value="#{course.title}"/>
+                               </p:column>
+                           </p:dataTable>
+                       </p:column>
+                       <p:column style="width: 65%">
+                           <p:dataTable id="studgroupsToRecord" value="#{studentBean.studgroupList}"  var="studgroup"
+                                        scrollable="true" scrollHeight="230"
+                                        rowKey="#{studgroup.id}" selectionMode="single" selection="#{studentBean.selectedStudgroup}"
+                                        emptyMessage="Группа(ы) по данному курсу отсутствует!">
+                               <p:ajax event="rowSelect" listener="#{studentBean.setPrintNameStudgroup}" update=":Include:courseTable:selectedStudgroupLabel
+                                                                                                                 :Include:courseTable:recordToCourseButton" />
+                               <f:facet name="header">
+                                   <p:outputLabel value="группы"/>
+                               </f:facet>
+                               <p:column style="width: 10px;text-align:center;">
+                                   <h:outputText value="●"/>
+                               </p:column>
+                               <p:column headerText="название">
+                                   <h:outputText value="#{studgroup.name}"/>
+                               </p:column>
+                               <p:column headerText="описание">
+                                   <h:outputText value="#{studgroup.description}" />
+                               </p:column>
+                           </p:dataTable>
+                       </p:column>
+                   </p:row>
+               </p:panelGrid>
+               </div>
+               <div style="margin-top: 20px">
+               <p:panelGrid style=" width: 100%; height: 180px; text-align: center;">
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column>
+                                Полная стоимость курса
+                            </p:column>
+                            <p:column colspan="2">
+                                Оплата
+                            </p:column>
+                            <p:column>
+                                Описание
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        <p:column style="width: 25%; height: 70px;">
+                            <p:inputText id="allSum" style="text-align: right; width: 200px;" value="#{studentBean.allSum}" >
+                               <p:ajax event="keyup" process="@this" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column style="width: 1%; border-right: none !important;">
+                            <p:inputSwitch id="InputSwitch" value="#{studentBean.displayPaydSum}" onLabel="да" offLabel="нет">
+                               <p:ajax listener="#{studentBean.setPaydSumToNull}"
+                                       update=":Include:courseTable:paydSum :Include:courseTable:infoPay :Include:courseTable:descriptionRecord
+                                               :Include:courseTable:recordToCourseButton :Include:courseTable:preventCourse :Include:courseTable:growlRecordToCourse"/>
+                            </p:inputSwitch>
+                        </p:column>
+                        <p:column style="width: 24%; border-left: none !important;">
+                            <p:inputText id="paydSum" style="width: 200px; text-align: right;" value="#{studentBean.paydSum}" disabled="#{studentBean.displayPaydSum}">
+                              <p:ajax event="keyup" update=":Include:courseTable:infoPay :Include:courseTable:recordToCourseButton :Include:courseTable:preventCourse"/>
+                            </p:inputText>
+                        </p:column>
+                        <p:column rowspan="2" style="padding: none !important;">
+                            <p:focus id="focus" for="descriptionRecord" rendered="#{studentBean.rendered}"/>
+                            <p:inputTextarea id="descriptionRecord" style="height: 100%; width:95%; margin: 0 !important;" value="#{studentBean.recordDescription}">
+                                <p:ajax event="keyup" listener="#{studentBean.checkDescription}" update=":Include:courseTable:growlRecordToCourse :Include:courseTable:recordToCourseButton"
+                                        disabled="#{not studentBean.prevent}"/>
+                            </p:inputTextarea>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="background-color: lightgray; height: 60px" colspan="3">
+                            <h:outputText id="infoPay" style="color: #{studentBean.color}; font-weight: bolder;" value="#{studentBean.infoPay}" />
+                        </p:column>
+                    </p:row>
+                    <p:row style="height: 70px">
+                        <p:column colspan="3" style="border-right: none">
+                            <p:selectBooleanCheckbox id="preventCourse" value="#{studentBean.prevent}" disabled="#{studentBean.displayCheckBox}">
+                                <p:ajax listener="#{studentBean.preventToCourse}" update=":Include:courseTable:growlRecordToCourse
+                                                                                          :Include:courseTable:descriptionRecord
+                                                                                          :Include:courseTable:recordToCourseButton
+                                                                                          :Include:courseTable:focus
+                                                                                          :Include:courseTable:InputSwitch"/>
+                            </p:selectBooleanCheckbox>
+                            <p:outputLabel value=" Допустить до курса" for="preventCourse" />
+                        </p:column>
+                        <p:column style="border-left: none">
+                            <p:commandButton id="recordToCourseButton" style="font-weight: bolder; padding-bottom: 5px; padding-top: 5px;" value="ЗАПИСАТЬ"
+                                             actionListener="#{studentBean.recordStudentCourse}" disabled="#{studentBean.displayButton}" update=":Include" />
+                        </p:column>
+                    </p:row>
+                    <f:facet name="footer">
+                        <p:row>
+                            <p:column colspan="4" />
+                        </p:row>
+                    </f:facet>
+                </p:panelGrid>
+               </div>
+        </h:form>
+    </p:fieldset>
+</ui:composition>

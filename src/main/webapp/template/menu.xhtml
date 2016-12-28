@@ -1,0 +1,27 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html">
+
+    <h:form>
+        <p:accordionPanel styleClass="accordion_menu" style="background-color: lightgoldenrodyellow !important;">
+            <p:tab title="Преподаватели">
+                <p:commandButton value="Добавить" styleClass="buttons" actionListener="#{navigationBean.setNaviPage('add_lecturer')}" update=":Include" />
+                <p:commandButton value="Список" styleClass="buttons" actionListener="#{navigationBean.setNaviPage('list_lecturers')}" update=":Include" />
+            </p:tab>
+            <p:tab title="Студенты">
+                <p:commandButton value="Добавить" styleClass="buttons" actionListener="#{navigationBean.setNaviPage('add_student')}" update=":Include" />
+                <p:commandButton value="Список" styleClass="buttons" actionListener="#{navigationBean.setNaviPage('list_students')}" update=":Include" />
+            </p:tab>
+            <p:tab title="Курсы">
+                <p:commandButton value="Добавить" styleClass="buttons" actionListener="#{navigationBean.setNaviPage('add_course')}" update=":Include" />
+                <p:commandButton value="Список" styleClass="buttons" actionListener="#{navigationBean.setNaviPage('list_courses')}" update=":Include" />
+            </p:tab>
+            <p:tab title="Группы">
+                <p:commandButton value="Добавить" styleClass="buttons" actionListener="#{navigationBean.setNaviPage('add_studgroup')}" update=":Include" />
+
+                <p:commandButton value="Список" styleClass="buttons" actionListener="#{studgroupBean.gotoListStudgroups}" update=":Include" />
+            </p:tab>
+        </p:accordionPanel>
+    </h:form>
+</ui:composition>
