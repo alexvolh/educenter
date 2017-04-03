@@ -1,2 +1,2 @@
 # educenter
-Education information system
+education information system
