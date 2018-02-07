@@ -1,6 +1,6 @@
 # educenter
 
-### Some screenshots from web-application:
+### Some screenshots of web-application work:
 
 ![alt text](https://i.imgur.com/wXoNnij.png)
 
